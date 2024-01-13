@@ -15,10 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from restaurant_booking import views as index_views
+from django.urls import path
+from restaurant_booking import views as restaurant_views
 
 urlpatterns = [
-    path('', index_views.index, name='index'),
-    path("admin/", admin.site.urls),
+    path('', restaurant_views.view_home, name='home'),  # Add a default home view
+    path('available-time-slots/', restaurant_views.view_available_time_slots, name='available_time_slots'),
+    path('make-reservation/', restaurant_views.make_reservation, name='make_reservation'),
+    path('manage-bookings/', restaurant_views.manage_bookings, name='manage_bookings'),
 ]
