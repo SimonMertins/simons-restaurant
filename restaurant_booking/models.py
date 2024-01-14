@@ -28,3 +28,13 @@ class MenuItem(models.Model):
     def __str__(self):
         return self.name
 
+# For user profile
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # can add fields as needed, profile picture, contact info
+
+    def __str__(self):
+        return self.user.username
+
+

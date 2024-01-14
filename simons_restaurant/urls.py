@@ -23,4 +23,5 @@ urlpatterns = [
     path('available-time-slots/', restaurant_views.view_available_time_slots, name='available_time_slots'),
     path('make-reservation/', restaurant_views.make_reservation, name='make_reservation'),
     path('manage-bookings/', restaurant_views.manage_bookings, name='manage_bookings'),
+    path('register/', register, name='register'),
 ]
