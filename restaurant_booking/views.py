@@ -67,6 +67,10 @@ def make_reservation(request):
     return redirect('available_time_slots')
 
 
+def view_reservations(request):
+    return render(request, 'restaurant_booking/reservations.html')
+
+
 def manage_bookings(request):
     # Implement logic to display and manage bookings
     # For demonstration purposes, let's fetch all bookings for the logged-in user

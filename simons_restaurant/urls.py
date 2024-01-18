@@ -19,10 +19,11 @@ from django.urls import path, include
 from restaurant_booking import views as restaurant_views
 
 urlpatterns = [
-    path('', restaurant_views.view_home, name='home'),  # Add a default home view
+    path('', restaurant_views.view_home, name='home'), 
     path('available-time-slots/', restaurant_views.view_available_time_slots, name='available_time_slots'),
     path('make-reservation/', restaurant_views.make_reservation, name='make_reservation'),
     path('manage-bookings/', restaurant_views.manage_bookings, name='manage_bookings'),
-    path('register/', restaurant_views.register, name='register'),  # Add this line
+    path('register/', restaurant_views.register, name='register'),
+    path('reservations/', restaurant_views.view_reservations, name='view_reservations'),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

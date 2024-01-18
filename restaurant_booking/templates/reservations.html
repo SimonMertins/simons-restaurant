@@ -1,0 +1,58 @@
+<!-- reservations.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Make a Reservation - Simon's Restaurant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Make a Reservation</h2>
+
+    <form id="reservationForm" method="post" action="{% url 'make_reservation' %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="inputDate">Date</label>
+            <input type="date" class="form-control" id="inputDate" name="inputDate" onchange="loadAvailableTimeSlots()" required>
+        </div>
+
+        <div class="form-group">
+            <label for="inputTime">Available Time Slots</label>
+            <select class="form-control" id="inputTime" name="inputTime" disabled required>
+                <!-- Available time slots will be dynamically loaded here -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="inputGuests">Number of Guests</label>
+            <input type="number" class="form-control" id="inputGuests" name="inputGuests" min="1" max="10" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Reservation</button>
+    </form>
+</div>
+
+<script>
+    function loadAvailableTimeSlots() {
+        // Fetch available time slots based on the selected date and populate the dropdown
+        var selectedDate = document.getElementById('inputDate').value;
+        var timeSlotsDropdown = document.getElementById('inputTime');
+
+        // Make an AJAX request to your Django backend to get available time slots
+        // Update the 'options' of the 'timeSlotsDropdown' based on the response
+
+        // Example using dummy data for illustration
+        var dummyTimeSlots = ['12:00 PM', '1:00 PM', '6:00 PM', '7:00 PM'];
+        timeSlotsDropdown.innerHTML = '<option value="" disabled selected>Select a time</option>';
+
+        dummyTimeSlots.forEach(function (timeSlot) {
+            var option = document.createElement('option');
+            option.value = timeSlot;
+            option.text = timeSlot;
+            timeSlotsDropdown.add(option);
+        });
+
+        timeSlotsDropdown.disabled = false; // Enable the dropdown once time slots are loaded
+    }
+</script>
+{% endblock %}
