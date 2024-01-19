@@ -2,6 +2,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Reservation(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    date = models.DateField()
+    time = models.TimeField()
+    num_guests = models.IntegerField()
+
 class Table(models.Model):
     name = models.CharField(max_length=50)
     capacity = models.PositiveIntegerField()
@@ -34,7 +41,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     field1 = models.CharField(max_length=100)
     field2 = models.CharField(max_length=100)
-    # Add other fields as needed
 
     def __str__(self):
         return self.user.username

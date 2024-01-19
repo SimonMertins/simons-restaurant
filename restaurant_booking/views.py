@@ -4,6 +4,7 @@ from .models import Table, Booking
 from datetime import datetime, timedelta
 from django.contrib.auth import login
 from .forms import SignUpForm, UserProfileForm
+from .forms import ReservationForm
 
 
 def view_home(request):
@@ -69,6 +70,19 @@ def make_reservation(request):
 
 def view_reservations(request):
     return render(request, 'restaurant_booking/reservations.html')
+
+
+def make_reservation(request):
+    if request.method == 'POST':
+        form = ReservationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Add any additional logic or redirect as needed
+            return redirect('home')
+    else:
+        form = ReservationForm()
+
+    return render(request, 'restaurant_booking/make_reservation.html', {'form': form})
 
 
 def manage_bookings(request):

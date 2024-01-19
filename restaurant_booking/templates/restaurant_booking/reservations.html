@@ -12,6 +12,17 @@
         {% csrf_token %}
 
         <div class="form-group">
+            <label for="inputName">Name</label>
+            <input type="text" class="form-control" id="inputName" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" id="inputEmail" name="email" required>
+        </div>
+
+
+        <div class="form-group">
             <label for="inputDate">Date</label>
             <input type="date" class="form-control" id="inputDate" name="inputDate" onchange="loadAvailableTimeSlots()" required>
         </div>

@@ -5,6 +5,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from .models import UserProfile
+from .models import Reservation
+
+class ReservationForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = ['name', 'email', 'date', 'time', 'num_guests']
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField()
