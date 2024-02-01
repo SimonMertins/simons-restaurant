@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from .forms import SignUpForm, UserProfileForm, ReservationForm
 from django.template.context_processors import csrf
 from django.http import JsonResponse
+from .models import Reservation 
 
 def view_home(request):
     # Implement logic for the home view
@@ -51,19 +52,20 @@ def make_reservation(request):
                 selected_table.is_available = False
                 selected_table.save()
 
+                print("Reservation successful!")
+
                 # Redirect to a success page or display a success message
-                return render(request, 'restaurant_booking/reservations.html', {'reservation_success': 'Reservation successful!'})
+                return render(request, 'restaurant_booking/reservations.html', {'reservation_success': 'Reservation successful!', 'form': ReservationForm()})
             else:
                 # Table is not available, include a message in the context
-                return render(request, 'restaurant_booking/reservations.html', {'reservation_error': 'Selected table is not available at the chosen time.'})
+                return render(request, 'restaurant_booking/reservations.html', {'reservation_error': 'Selected table is not available at the chosen time.', 'form': form})
         else:
             # Form is not valid, include it in the context to display errors
             return render(request, 'restaurant_booking/reservations.html', {'form': form, 'reservation_error': 'Invalid form submission. Please check the form and try again.'})
 
     # If not a POST request, redirect to the available time slots page
     csrf_token = csrf(request)['csrf_token']
-    return render(request, 'restaurant_booking/reservations.html', {'csrf_token': csrf_token})
-
+    return render(request, 'restaurant_booking/reservations.html', {'csrf_token': csrf_token, 'form': ReservationForm()})
 
 def view_reservations(request):
     return render(request, 'restaurant_booking/reservations.html')
