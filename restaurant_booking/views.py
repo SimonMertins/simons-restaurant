@@ -3,26 +3,20 @@ from django.http import HttpResponse
 from .models import Table, Booking
 from datetime import datetime, timedelta
 from django.contrib.auth import login
-from .forms import SignUpForm, UserProfileForm
-from .forms import ReservationForm
-
+from .forms import SignUpForm, UserProfileForm, ReservationForm
+from django.template.context_processors import csrf
+from django.http import JsonResponse
 
 def view_home(request):
     # Implement logic for the home view
     return render(request, 'restaurant_booking/home.html')
-
-
-# Placeholder context,
-context = {}
-
 
 def view_available_time_slots(request):
     # Implement logic to fetch and display available time slots
     # For demonstration purposes, let's assume tables are available from 6 PM to 10 PM in 1-hour slots
     start_time = datetime.strptime('18:00', '%H:%M').time()
     end_time = datetime.strptime('22:00', '%H:%M').time()
-    time_slots = [start_time + timedelta(hours=i)
-                  for i in range((end_time.hour - start_time.hour))]
+    time_slots = [start_time + timedelta(hours=i) for i in range((end_time.hour - start_time.hour))]
 
     # Fetch available tables (assuming tables are available for the entire duration)
     available_tables = Table.objects.filter(is_available=True)
@@ -33,57 +27,46 @@ def view_available_time_slots(request):
     }
     return render(request, 'restaurant_booking/available_time_slots.html', context)
 
-
-def make_reservation(request):
-    # Implement logic to handle reservation submissions
-    if request.method == 'POST':
-        # Get form data from the request
-        selected_time = request.POST.get('selected_time')
-        selected_table_id = request.POST.get('selected_table')
-
-        # Convert selected_time to a datetime object for the Booking model
-        reservation_datetime = datetime.combine(
-            datetime.today(), datetime.strptime(selected_time, '%H:%M').time())
-
-        # Check if the selected table is available at the chosen time
-        selected_table = Table.objects.get(pk=selected_table_id)
-        if selected_table.is_available:
-            # Create a reservation
-            reservation = Booking.objects.create(
-                user=request.user,  # Assuming the user is authenticated
-                table=selected_table,
-                date=reservation_datetime.date(),
-                time=reservation_datetime.time(),
-                guests=1  # Placeholder value, replace with the actual number of guests
-            )
-
-            # Update table availability
-            selected_table.is_available = False
-            selected_table.save()
-
-            # Redirect to a success page or display a success message
-            return HttpResponse("Reservation successful!")
-
-    # If not a POST request or if the reservation fails, redirect to the available time slots page
-    return redirect('available_time_slots')
-
-
-def view_reservations(request):
-    return render(request, 'restaurant_booking/reservations.html')
-
-
 def make_reservation(request):
     if request.method == 'POST':
         form = ReservationForm(request.POST)
         if form.is_valid():
-            form.save()
-            # Add any additional logic or redirect as needed
-            return redirect('home')
-    else:
-        form = ReservationForm()
+            reservation = form.save(commit=False)
 
-    return render(request, 'restaurant_booking/make_reservation.html', {'form': form})
+            # Additional processing if needed
+            reservation.user = request.user  # Assuming the user is authenticated
 
+            # Convert selected time to a datetime object for the Booking model
+            reservation_datetime = datetime.combine(
+                reservation.date, reservation.time
+            )
+
+            # Check if the selected table is available at the chosen time
+            selected_table = Table.objects.get(pk=reservation.table.id)
+            if selected_table.is_available:
+                # Save the reservation
+                reservation.save()
+
+                # Update table availability
+                selected_table.is_available = False
+                selected_table.save()
+
+                # Redirect to a success page or display a success message
+                return render(request, 'restaurant_booking/reservations.html', {'reservation_success': 'Reservation successful!'})
+            else:
+                # Table is not available, include a message in the context
+                return render(request, 'restaurant_booking/reservations.html', {'reservation_error': 'Selected table is not available at the chosen time.'})
+        else:
+            # Form is not valid, include it in the context to display errors
+            return render(request, 'restaurant_booking/reservations.html', {'form': form, 'reservation_error': 'Invalid form submission. Please check the form and try again.'})
+
+    # If not a POST request, redirect to the available time slots page
+    csrf_token = csrf(request)['csrf_token']
+    return render(request, 'restaurant_booking/reservations.html', {'csrf_token': csrf_token})
+
+
+def view_reservations(request):
+    return render(request, 'restaurant_booking/reservations.html')
 
 def manage_bookings(request):
     # Implement logic to display and manage bookings
@@ -95,7 +78,6 @@ def manage_bookings(request):
         'user_bookings': user_bookings,
     }
     return render(request, 'restaurant_booking/manage_bookings.html', context)
-
 
 # for user registration form
 def register(request):
@@ -117,3 +99,10 @@ def register(request):
         profile_form = UserProfileForm()
 
     return render(request, 'registration/register.html', {'user_form': user_form, 'profile_form': profile_form})
+
+def get_available_time_slots(request):
+    selected_date = request.GET.get('date')
+    available_time_slots = ['12:00 PM', '1:00 PM', '6:00 PM', '7:00 PM']
+
+    return JsonResponse(available_time_slots, safe=False)
+

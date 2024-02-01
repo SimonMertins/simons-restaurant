@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from restaurant_booking import views as restaurant_views
+from restaurant_booking.views import get_available_time_slots
 
 urlpatterns = [
     path('', restaurant_views.view_home, name='home'), 
@@ -26,4 +27,6 @@ urlpatterns = [
     path('register/', restaurant_views.register, name='register'),
     path('reservations/', restaurant_views.view_reservations, name='view_reservations'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('get_available_time_slots/', get_available_time_slots, name='get_available_time_slots'),
+
 ]
