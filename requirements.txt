@@ -2,7 +2,7 @@ asgiref==3.7.2
 beautifulsoup4==4.12.3
 blinker==1.4
 cryptography==3.4.8
-dbus-python==1.2.18
+dbus-python>=1.2.18
 distro==1.7.0
 Django==5.0.1
 django-bootstrap4==24.1
