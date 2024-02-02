@@ -31,5 +31,7 @@ zipp==1.0.0
 whitenoise==5.3.0
 dj-database-url==0.5.0
 cython==0.29.24
+libyaml==0.2.5
+
 
 
