@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .models import Table, Booking
+from django.http import HttpResponse, JsonResponse
+from .models import Table, Booking, MenuItem
 from datetime import datetime, timedelta
 from django.contrib.auth import login
-from .forms import SignUpForm, UserProfileForm, ReservationForm
+from .forms import ReservationForm
 from django.template.context_processors import csrf
-from django.http import JsonResponse
-from .models import Reservation 
+from .models import Reservation
+
 
 def view_home(request):
     # Implement logic for the home view
@@ -34,9 +34,6 @@ def make_reservation(request):
         if form.is_valid():
             reservation = form.save(commit=False)
 
-            # Additional processing if needed
-            reservation.user = request.user  # Assuming the user is authenticated
-
             # Convert selected time to a datetime object for the Booking model
             reservation_datetime = datetime.combine(
                 reservation.date, reservation.time
@@ -52,28 +49,24 @@ def make_reservation(request):
                 selected_table.is_available = False
                 selected_table.save()
 
-                print("Reservation successful!")
-
-                # Redirect to a success page or display a success message
-                return render(request, 'restaurant_booking/reservations.html', {'reservation_success': 'Reservation successful!', 'form': ReservationForm()})
+                # Return a JSON response indicating success
+                return JsonResponse({'status': 'success', 'message': 'Reservation successful!'})
             else:
                 # Table is not available, include a message in the context
-                return render(request, 'restaurant_booking/reservations.html', {'reservation_error': 'Selected table is not available at the chosen time.', 'form': form})
+                return JsonResponse({'status': 'error', 'message': 'Selected table is not available at the chosen time.'})
         else:
             # Form is not valid, include it in the context to display errors
-            return render(request, 'restaurant_booking/reservations.html', {'form': form, 'reservation_error': 'Invalid form submission. Please check the form and try again.'})
+            return JsonResponse({'status': 'error', 'message': 'Invalid form submission. Please check the form and try again.'})
 
     # If not a POST request, redirect to the available time slots page
     csrf_token = csrf(request)['csrf_token']
-    return render(request, 'restaurant_booking/reservations.html', {'csrf_token': csrf_token, 'form': ReservationForm()})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
+
 
 def view_reservations(request):
     return render(request, 'restaurant_booking/reservations.html')
 
 def manage_bookings(request):
-    # Implement logic to display and manage bookings
-    # For demonstration purposes, let's fetch all bookings for the logged-in user
-    # Assuming the user is authenticated
     user_bookings = Booking.objects.filter(user=request.user)
 
     context = {
@@ -81,30 +74,29 @@ def manage_bookings(request):
     }
     return render(request, 'restaurant_booking/manage_bookings.html', context)
 
-# for user registration form
-def register(request):
-    if request.method == 'POST':
-        user_form = SignUpForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-
-            login(request, user)  # Log in the user after registration
-            # Redirect to the home page after successful registration
-            return redirect('home')
-    else:
-        user_form = SignUpForm()
-        profile_form = UserProfileForm()
-
-    return render(request, 'registration/register.html', {'user_form': user_form, 'profile_form': profile_form})
-
 def get_available_time_slots(request):
     selected_date = request.GET.get('date')
     available_time_slots = ['12:00 PM', '1:00 PM', '6:00 PM', '7:00 PM']
 
     return JsonResponse(available_time_slots, safe=False)
 
+def view_menu(request):
+
+    MenuItem.objects.all().delete()
+
+    MenuItem.objects.create(name='Margherita Pizza', price=12.99)
+    MenuItem.objects.create(name='Chicken Alfredo Pasta', price=15.99)
+    MenuItem.objects.create(name='Grilled Salmon', price=18.99)
+    MenuItem.objects.create(name='Caesar Salad', price=8.99)
+    MenuItem.objects.create(name='Chocolate Brownie Sundae', price=7.99)
+
+    MenuItem.objects.create(name='Soda', price=2.99)
+    MenuItem.objects.create(name='Iced Tea', price=1.99)
+    MenuItem.objects.create(name='Mango Smoothie', price=4.99)
+    MenuItem.objects.create(name='Espresso', price=3.49)
+
+    menu_items = MenuItem.objects.all()
+    return render(request, 'restaurant_booking/menu.html', {'menu_items': menu_items})
+
+def contact(request):
+    return render(request, 'restaurant_booking/contact.html')

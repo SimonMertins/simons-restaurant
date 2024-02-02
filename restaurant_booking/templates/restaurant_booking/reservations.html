@@ -31,6 +31,7 @@
             <label for="inputDate">Date</label>
             <input type="date" class="form-control" id="inputDate" name="inputDate" onchange="loadAvailableTimeSlots()" required>
         </div>
+        
 
         <div class="form-group">
             <label for="inputTime">Available Time Slots</label>
@@ -47,8 +48,9 @@
         <button type="submit" class="btn btn-primary">Submit Reservation</button>
     </form>
 </div>
-
 <script>
+    var csrf_token = "{{ csrf_token }}";
+
     function loadAvailableTimeSlots() {
         var selectedDate = document.getElementById('inputDate').value;
         var timeSlotsDropdown = document.getElementById('inputTime');
@@ -71,6 +73,47 @@
             })
             .catch(error => console.error('Error fetching available time slots:', error));
     }
+
+    function submitReservation() {
+        // Gather form data
+        var formData = {
+            name: document.getElementById('inputName').value,
+            email: document.getElementById('inputEmail').value,
+            date: document.getElementById('inputDate').value,
+            time: document.getElementById('inputTime').value,
+            inputGuests: document.getElementById('inputGuests').value,
+        };
+
+        // Make an AJAX request to submit the reservation
+        fetch(`/make-reservation/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrf_token,
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log('Reservation successful:', data.message);
+                // Handle success, maybe redirect or display a success message
+            } else {
+                console.error('Reservation failed:', data.message);
+                // Print form errors to the console for debugging
+                if (data.errors) {
+                    console.error('Form errors:', data.errors);
+                }
+                // Handle failure, maybe display an error message
+            }
+        })
+        .catch(error => console.error('Error making reservation:', error));
+    }
+
+    // Call the function when the page is loaded
+    document.addEventListener("DOMContentLoaded", loadAvailableTimeSlots);
 </script>
+
 {% endblock %}
+
 

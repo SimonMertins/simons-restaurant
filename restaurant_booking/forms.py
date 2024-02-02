@@ -6,22 +6,16 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from .models import UserProfile
 from .models import Reservation
+from .models import MenuItem
 
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = ['name', 'email', 'date', 'time', 'num_guests']
 
-class SignUpForm(UserCreationForm):
-    email = forms.EmailField()
-
+class MenuItemForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2')
-
-class UserProfileForm(ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ('field1', 'field2')
+        model = MenuItem
+        fields = ['name', 'description', 'price']
 
 
