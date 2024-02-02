@@ -19,7 +19,7 @@ oauthlib==3.2.0
 Pygments==2.11.2
 PyJWT==2.3.0
 pyparsing==2.4.7
-PyYAML==5.4.1
+# PyYAML==5.4.1
 SecretStorage==3.3.1
 six==1.16.0
 soupsieve==2.5
@@ -30,8 +30,7 @@ zipp==1.0.0
 whitenoise==5.3.0
 dj-database-url==0.5.0
 cython==0.29.24
-# Remove PyGObject temporarily
-# PyGObject==3.42.1
+
 
 
 
