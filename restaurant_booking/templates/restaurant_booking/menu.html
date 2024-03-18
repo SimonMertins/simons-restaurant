@@ -3,25 +3,83 @@
 {% block title %}Menu - Simon's Restaurant{% endblock %}
 
 {% block content %}
-    <section class="container mt-4">
-        <h2 class="text-center mb-4">Menu</h2>
-        {% if menu_items %}
-            <div class="row">
-                {% for item in menu_items %}
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ item.name }}</h5>
-                                <p class="card-text">Price: ${{ item.price }}</p>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+<section class="container mt-4">
+    <h2 class="text-center mb-4">Menu</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Margherita Pizza</h5>
+                    <p class="card-text">Price: $12.99</p>
+                </div>
             </div>
-        {% else %}
-            <p class="text-center">No menu items available.</p>
-        {% endif %}
-    </section>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Chicken Alfredo Pasta</h5>
+                    <p class="card-text">Price: $15.99</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Grilled Salmon</h5>
+                    <p class="card-text">Price: $18.99</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Caesar Salad</h5>
+                    <p class="card-text">Price: $8.99</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Chocolate Brownie Sundae</h5>
+                    <p class="card-text">Price: $7.99</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Soda</h5>
+                    <p class="card-text">Price: $2.99</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Iced Tea</h5>
+                    <p class="card-text">Price: $1.99</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Mango Smoothie</h5>
+                    <p class="card-text">Price: $4.99</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Espresso</h5>
+                    <p class="card-text">Price: $3.49</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 
