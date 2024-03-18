@@ -23,12 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-dd-zg*y&8o(a8e&88ivltmtmc@e6$$6xllxndh9fatecd^bw@("
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['8000-simonmertins-simons-rest-4eadrsw99o.us2.codeanyapp.com',
-    'http://8000-simonmertins-simons-rest-4eadrsw99o.us2.codeanyapp.com',
-    'https://8000-simonmertins-simons-rest-4eadrsw99o.us2.codeanyapp.com',
-    '.herokuapp.com'
+ALLOWED_HOSTS = [
+    '8000-simonmertin-simonsresta-spzer72hxj4.ws-eu110.gitpod.io',
 ]
 
 
@@ -87,13 +85,12 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
-}
 
+    }
 import dj_database_url
 
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -138,11 +135,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOWED_ORIGINS = [
-    "https://8000-simonmertins-simons-rest-4eadrsw99o.us2.codeanyapp.com",
+    "https://8000-simonmertin-simonsresta-spzer72hxj4.ws-eu110.gitpod.io",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS=["https://8000-simonmertins-simons-rest-4eadrsw99o.us2.codeanyapp.com",
+CSRF_TRUSTED_ORIGINS=["https://8000-simonmertin-simonsresta-spzer72hxj4.ws-eu110.gitpod.io",
 ]
 

@@ -14,7 +14,7 @@
     </div>
     {% endif %}
 
-    <form id="reservationForm" method="post" action="{% url 'make_reservation' %}">
+    <form id="reservationForm" method="post" action="{% url 'make_reservation' %}" onsubmit="submitReservation(); return false;">
         {% csrf_token %}
 
         <div class="form-group">

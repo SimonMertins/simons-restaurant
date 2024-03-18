@@ -14,9 +14,8 @@ def view_home(request):
 
 def view_available_time_slots(request):
     # Implement logic to fetch and display available time slots
-    # For demonstration purposes, let's assume tables are available from 6 PM to 10 PM in 1-hour slots
-    start_time = datetime.strptime('18:00', '%H:%M').time()
-    end_time = datetime.strptime('22:00', '%H:%M').time()
+    start_time = datetime.strptime('12:00', '%H:%M').time()
+    end_time = datetime.strptime('20:00', '%H:%M').time()
     time_slots = [start_time + timedelta(hours=i) for i in range((end_time.hour - start_time.hour))]
 
     # Fetch available tables (assuming tables are available for the entire duration)
