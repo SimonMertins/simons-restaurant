@@ -27,6 +27,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     '8000-simonmertin-simonsresta-spzer72hxj4.ws-eu110.gitpod.io',
+    ".herokuapp.com",
     "https://simon-restaurant.herokuapp.com",
 ]
 
