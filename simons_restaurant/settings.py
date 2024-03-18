@@ -29,6 +29,7 @@ ALLOWED_HOSTS = [
     '8000-simonmertin-simonsresta-spzer72hxj4.ws-eu110.gitpod.io',
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Application definition
 
@@ -136,10 +137,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOWED_ORIGINS = [
     "https://8000-simonmertin-simonsresta-spzer72hxj4.ws-eu110.gitpod.io",
+    "https://simon-restaurant.herokuapp.com",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS=["https://8000-simonmertin-simonsresta-spzer72hxj4.ws-eu110.gitpod.io",
+"https://simon-restaurant.herokuapp.com",
 ]
 
