@@ -27,6 +27,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     '8000-simonmertin-simonsresta-spzer72hxj4.ws-eu110.gitpod.io',
+    "https://simon-restaurant.herokuapp.com",
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
