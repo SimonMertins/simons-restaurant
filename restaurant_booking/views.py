@@ -81,5 +81,8 @@ def get_available_time_slots(request):
 
     return JsonResponse(available_time_slots, safe=False)
 
+def view_menu(request):
+    return render(request, 'restaurant_booking/menu.html')
+
 def contact(request):
     return render(request, 'restaurant_booking/contact.html')
