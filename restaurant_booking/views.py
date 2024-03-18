@@ -81,23 +81,5 @@ def get_available_time_slots(request):
 
     return JsonResponse(available_time_slots, safe=False)
 
-def view_menu(request):
-
-    MenuItem.objects.all().delete()
-
-    MenuItem.objects.create(name='Margherita Pizza', price=12.99)
-    MenuItem.objects.create(name='Chicken Alfredo Pasta', price=15.99)
-    MenuItem.objects.create(name='Grilled Salmon', price=18.99)
-    MenuItem.objects.create(name='Caesar Salad', price=8.99)
-    MenuItem.objects.create(name='Chocolate Brownie Sundae', price=7.99)
-
-    MenuItem.objects.create(name='Soda', price=2.99)
-    MenuItem.objects.create(name='Iced Tea', price=1.99)
-    MenuItem.objects.create(name='Mango Smoothie', price=4.99)
-    MenuItem.objects.create(name='Espresso', price=3.49)
-
-    menu_items = MenuItem.objects.all()
-    return render(request, 'restaurant_booking/menu.html', {'menu_items': menu_items})
-
 def contact(request):
     return render(request, 'restaurant_booking/contact.html')
