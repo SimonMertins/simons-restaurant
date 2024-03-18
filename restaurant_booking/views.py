@@ -8,6 +8,7 @@ from django.template.context_processors import csrf
 from .models import Reservation
 
 
+
 def view_home(request):
     # Implement logic for the home view
     return render(request, 'restaurant_booking/home.html')
@@ -55,7 +56,8 @@ def make_reservation(request):
                 return JsonResponse({'status': 'error', 'message': 'Selected table is not available at the chosen time.'})
         else:
             # Form is not valid, include it in the context to display errors
-            return JsonResponse({'status': 'error', 'message': 'Invalid form submission. Please check the form and try again.'})
+            form_errors = form.errors.as_data()
+            return JsonResponse({'status': 'error', 'message': 'Invalid form submission.', 'errors': form_errors})
 
     # If not a POST request, redirect to the available time slots page
     csrf_token = csrf(request)['csrf_token']

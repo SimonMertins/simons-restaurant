@@ -24,8 +24,7 @@ class Booking(models.Model):
     time = models.TimeField()
     guests = models.PositiveIntegerField()
 
-    def __str__(self):
-        return f'{self.user.username} - {self.date} {self.time}'
+    
 
 class MenuItem(models.Model):
     name = models.CharField(max_length=100)
